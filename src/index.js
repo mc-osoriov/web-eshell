@@ -1,10 +1,19 @@
 import express from "express";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+
+import indexRoutes from "./routes/routes.js";
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("<h1>hiiiiiii bithc</h1>");
-});
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-app.listen(process.env.PORT || 3000);
-console.log("server on port", process.env.PORT || 3000);
+app.set("views", join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(indexRoutes);
+
+app.use(express.static(join(__dirname, "public")));
+
+// listening the Server
+app.listen(3000);
+console.log("Server on port", 3000);
